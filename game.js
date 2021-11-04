@@ -15,6 +15,8 @@ function start() {//works
 	
 	//take start time
 	lastStingTime = new Date();
+	
+	document.getElementById("speedBear").onchange = function() {bear.change();}
 
 	}
 

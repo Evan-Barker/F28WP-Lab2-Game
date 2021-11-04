@@ -12,6 +12,10 @@ function start() {//works
 	makeBees();
 	
 	updateBees();
+	
+	//take start time
+	lastStingTime = new Date();
+
 	}
 
 	function Bear() {//works
@@ -28,6 +32,8 @@ function start() {//works
 	this.move = function (xDir, yDir) {//works
 		//keeps bear in play area
 		this.fitBounds();
+		
+		this.bBear = document.getElementById("speedBear").value;
 
 		this.x += this.dBear * xDir;
 
@@ -221,7 +227,7 @@ function makeBees() {//doesn not happen
 
 	//create bees
 
-	let i = 1;
+	let i = bees.length+1;//this allows the beeButton to work
 	while (i <= nbBees) {
 		var num = i;
 
@@ -268,18 +274,32 @@ function updateBees() {//works
 }
 
 //hit counter
-function isHit(defender, offender) {
+function isHit(defender, offender) {//works
 	if (overlap(defender, offender)) {
 		//check if 2 img overlap
 		let score = hits.innerHTML;
 		score = Number(score) + 1; //increment score - why not score++?
 		hits.innerHTML = score; //display new score
 		
-		//calc and display longest duration between hits
+		//calc and display longest duration between hits	//does first time then doesnt refresh for somereason
+		
+		let newStingTime = new Date();
+		let thisDuration = newStingTime - lastStingTime;
+		lastStingTime = newStingTime;
+		let longestDuration = Number(duration.innerHTML);
+		
+		if (longestDuration === 0){
+			longestDuration = thisDuration;
+		}else{
+			if (longestDuration < thisDuration){
+				lonogestDuration = thisDuration;
+			}
+		}
+		document.getElementById("duration").innerHTML = longestDuration;
 	}
 }
 
-function overlap(element1, element2) {
+function overlap(element1, element2) {//works
 	//consider the two rectangles wrapping the 2 elements - hitbox
 
 	//rectangle of 1st element
@@ -311,7 +331,8 @@ function overlap(element1, element2) {
 
 //add more bees via button
 function beeButton(){//not implemented
-	
+	document.getElementById("nbBees").value = Number(document.getElementById("nbBees").value) + 1;
+	makeBees();
 }
 
 //restart button
